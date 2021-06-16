@@ -1,0 +1,93 @@
+<section id="editing-DataTable" class="mb-3">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" style="display: inline-block">Voters</h4>
+          <input type='text' style='padding:8px;margin:15px auto;width:30%; display: inline-block; float: right'
+                 placeholder='Type to filter the name column...' (keyup)='updateFilter($event)'/>
+        </div>
+        <div class="card-content ">
+          <div class="card-body">
+            <ngx-datatable #mydatatable class="bootstrap" [headerHeight]="50" [limit]="5" [columnMode]="'force'"
+                           [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+              <ngx-datatable-column name="Numéro" prop="voterId">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Cin" prop="cin">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  <a class="cin-hand" (click)="findByCin(value)">{{value}}</a>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Nom" prop="nom">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Prénom" prop="prenom">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Image" prop="carteIdRecto">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  <img style="width: 50px;height: 50px" [src]="row.carteIdRecto" alt="cart recto">
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Actions" prop="voterId" sortable="false">
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  <span title="Accept">
+                    <a class="text-success p-0" href="javascript:void(0)" (click)="Accept(row.voterId)"
+                       data-original-title="" title="Accept">
+                      <i class="fa fa-check fa-2x mr-2"></i>
+                    </a>
+                    <a class="text-danger p-0" href="javascript:void(0)" (click)="Reject(value)"
+                       data-original-title="" title="Reject">
+                      <i class="fa fa-minus-circle fa-2x mr-2"></i>
+                    </a>
+                     <a class="text-info p-0" href="javascript:void(0)" (click)="Reject(value)"
+                        data-original-title="" title="Detail">
+                       <i class="fa fa-info-circle fa-2x mr-2"></i>
+                    </a>
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row ">
+      <div class="col-md-12">
+        <h1 class="d-flex justify-content-center">ICI La verification des voters </h1>
+        <form>
+          <div class="form-group">
+            <input [formControl]="cin" (keyup.enter)="findByCin()" type="text" placeholder="find by CIN"
+                   class="form-control">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="voter_found" class="col-md-12">
+        <ul class="list-group">
+          <li class="list-group-item active">Details Information CIN:{{voter.cin}}</li>
+          <li class="list-group-item"><span class="font-weight-bold">Nom:</span> {{voter.nom}}</li>
+          <li class="list-group-item"><span class="font-weight-bold">Nom:</span> {{voter.prenom}}</li>
+          <li class="list-group-item">
+            <span class="font-weight-bold">Cart Recto:</span>
+            <img style="height: 100px;width: 100px;" [src]="voter.carteIdRecto" alt="Carte Recto">
+          </li>
+          <li class="list-group-item">
+            <span class="font-weight-bold">Cart Verso:</span>
+            <img style="height: 100px;width: 100px;" [src]="voter.carteIdVerso" alt="Carte Recto">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
